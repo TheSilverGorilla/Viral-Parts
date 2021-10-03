@@ -11,7 +11,7 @@ filename = sys.argv[0]
 
 # Beginning worm_drive function.
 class worm_drive:
-    def __init(self):
+    def __init__(self):
         pass
     def filtering_and_expanding(self, path):
         for sub_dirs in os.listdir(path):
